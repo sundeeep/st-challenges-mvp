@@ -1,12 +1,39 @@
-import { Checkbox } from '@/components/ui/checkbox'
-import React from 'react'
+import { useEffect, useState } from "react";
+import AppwriteAccount from "./appwrite/Account.services";
+import { useNavigate } from "react-router";
 
-const App = () => {
+function App() {
+  const [isLoading, setIsLoading] = useState(true);
+  const appwriteAccount = new AppwriteAccount();
+  const navigate = useNavigate();
+
+  async function checkUserSession() {
+    const user = await appwriteAccount.getAppwriteUser()
+    if (!user) {
+      console.log("User Not Found! at / home route")
+      navigate("/login");
+    }
+    return true;
+  }
+
+  // componentDidMount()
+  useEffect(() => {
+    checkUserSession();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <>
+        <h1 className="font-bold text-5xl">Loading...</h1>
+      </>
+    )
+  }
+
   return (
-    <div>
-      <Checkbox />
-    </div>
+    <>
+      <h1 className="font-bold text-5xl">Social Media Feed</h1>
+    </>
   )
 }
 
-export default App
+export default App;

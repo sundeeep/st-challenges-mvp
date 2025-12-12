@@ -10,13 +10,30 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useState } from "react"
 import { useNavigate } from "react-router"
+import AppwriteAccount from "../appwrite/Account.services.js"
 
 function SignUpPage() {
+    const [fullName, setFullName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
     const navigate = useNavigate()
-    function handleLogInNavigate(){
+    const appwriteAccount = new AppwriteAccount()
+
+    function handleLogInNavigate() {
         navigate("/login")
     }
+
+    async function handleUserRegistration() {
+        const result = await appwriteAccount.createAppwriteAccount(email, password, fullName);
+        console.log(result);
+        if(result.status){
+            navigate("/login")
+        }
+    }
+
     return (
         <div className="h-screen w-screen flex items-center justify-center">
             <Card className="w-full max-w-sm">
@@ -32,18 +49,20 @@ function SignUpPage() {
                 <CardContent>
                     <form>
                         <div className="flex flex-col gap-6">
-                             <div className="grid gap-2">
+                            <div className="grid gap-2">
                                 <Label htmlFor="fullName">Full Name</Label>
                                 <Input
+                                    onChange={() => setFullName(event.target.value)}
                                     id="fullName"
-                                    type="fullName"
-                                    placeholder="m@example.com"
+                                    type="text"
+                                    placeholder="e.g., Sundeeep Dasari"
                                     required
                                 />
                             </div>
                             <div className="grid gap-2">
                                 <Label htmlFor="email">Email</Label>
                                 <Input
+                                    onChange={() => setEmail(event.target.value)}
                                     id="email"
                                     type="email"
                                     placeholder="m@example.com"
@@ -51,22 +70,20 @@ function SignUpPage() {
                                 />
                             </div>
                             <div className="grid gap-2">
-                                <div className="flex items-center">
-                                    <Label htmlFor="password">Password</Label>
-                                    <a
-                                        href="#"
-                                        className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                                    >
-                                        Forgot your password?
-                                    </a>
-                                </div>
-                                <Input id="password" type="password" required />
+                                <Label htmlFor="password">Password</Label>
+                                <Input
+                                    onChange={() => setPassword(event.target.value)}
+                                    id="password"
+                                    type="password"
+                                    placeholder="******"
+                                    required
+                                />
                             </div>
                         </div>
                     </form>
                 </CardContent>
                 <CardFooter className="flex-col gap-2">
-                    <Button type="submit" className="w-full">
+                    <Button onClick={handleUserRegistration} className="w-full">
                         Register
                     </Button>
                     <Button variant="outline" className="w-full">
