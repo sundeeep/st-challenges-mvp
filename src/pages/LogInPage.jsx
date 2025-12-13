@@ -15,21 +15,26 @@ import AppwriteAccount from "../appwrite/Account.services"
 import { useNavigate } from "react-router"
 
 function LogInPage() {
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
+    
     const navigate = useNavigate();
-
+    const appwriteAccount = new AppwriteAccount();
+    
     function handleNavigateToRegisterPage(){
         navigate("/register")
     }
 
-    const appwriteAccount = new AppwriteAccount();
-
     async function handleLogInUser(){
-        const result = await appwriteAccount.createAppwriteEmailPasswordSession(email, password);
-        console.log(result)
+        try{
+            const result = await appwriteAccount.createAppwriteEmailPasswordSession(email, password);
+            console.log(result)
+            if(result){
+                navigate("/");
+            }
+        }catch(error){
+            console.log("Error inside the LogInPage.jsx: ", error);
+        }
     }
 
     return (

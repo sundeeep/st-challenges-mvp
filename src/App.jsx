@@ -13,7 +13,7 @@ function App() {
       console.log("User Not Found! at / home route")
       navigate("/login");
     }
-    return true;
+    setIsLoading(false)
   }
 
   // componentDidMount()
