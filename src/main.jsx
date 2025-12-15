@@ -5,20 +5,10 @@ import { createBrowserRouter } from 'react-router'
 import { RouterProvider } from 'react-router/dom'
 import LogInPage from './pages/LogInPage'
 import SignUpPage from './pages/SignUpPage'
-import ProtectedRoute from './utils/ProtectedRoute'
 import MyDashboard from './pages/MyDashboard'
-import AppwriteAccount from './appwrite/Account.services'
-import AuthRoute from './utils/AuthRoute'
+import PublicRoute from './routes/PublicRoute'
+import PrivateRoute from './routes/PrivateRoute'
 
-
-const appwriteAccount = new AppwriteAccount();
-
-async function getCurrentUser() {
-  const user = await appwriteAccount.getAppwriteUser()
-  return user;
-}
-
-const currentUser = await getCurrentUser()
 
 const router = createBrowserRouter([
   {
@@ -27,15 +17,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <AuthRoute currentUser={currentUser}><LogInPage /></AuthRoute>
+    element: <PublicRoute><LogInPage /></PublicRoute>
   },
   {
     path: "/register",
-    element: <AuthRoute currentUser={currentUser}><SignUpPage /></AuthRoute>
+    element: <SignUpPage />
   },
   {
     path: "/dashboard",
-    element: <ProtectedRoute currentUser={currentUser}><MyDashboard /></ProtectedRoute>
+    element: <PrivateRoute><MyDashboard /></PrivateRoute>
   }
 
 ])

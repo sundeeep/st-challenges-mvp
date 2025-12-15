@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import AppwriteAccount from "./appwrite/Account.services";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -32,6 +32,9 @@ function App() {
   return (
     <>
       <h1 className="font-bold text-5xl">Social Media Feed</h1>
+      <nav>
+        <Link to="/dashboard">My Dashboard</Link>
+      </nav>
     </>
   )
 }

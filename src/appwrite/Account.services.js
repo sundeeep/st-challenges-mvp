@@ -25,20 +25,32 @@ class AppwriteAccount {
             return result;
         } catch (error) {
             console.log("User session not found!", error)
-            return ""
+            return null;
         }
     }
 
     async createAppwriteEmailPasswordSession(email, password) {
-        try{
+        try {
             const result = await this.account.createEmailPasswordSession({
                 email: email,
                 password: password
             });
             return result;
-        }catch(error){
-            console.log("Error in logging in the user: ",error)
+        } catch (error) {
+            console.log("Error in logging in the user: ", error)
             return ""
+        }
+    }
+
+    async logout() {
+        try {
+            const result = await this.account.deleteSession({
+                sessionId: 'current'
+            });
+            console.log(result);
+            return result;
+        } catch (error) {
+            console.error(error)
         }
     }
 }
