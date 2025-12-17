@@ -42,7 +42,11 @@ function PrivateRoute(props) {
         )
     }
 
-    return children;
+
+    
+    const newChildren = Object.assign({}, children, {props: {children: children.props.children, user}});
+
+    return newChildren; // <AdminRoute />
 }
 
 export default PrivateRoute;
