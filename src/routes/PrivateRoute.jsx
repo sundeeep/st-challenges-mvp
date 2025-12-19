@@ -1,29 +1,14 @@
-import { useEffect, useState } from "react";
-import AppwriteAccount from "../appwrite/Account.services";
+
 import { Navigate } from "react-router";
+import useAuthStore from "../store/authStore";
 
 
 function PrivateRoute(props) {
     const { children } = props;
 
-    const [user, setUser] = useState(null);
-    const [isCheckingUser, setIsCheckingUser] = useState(true)
-    const appwriteAccount = new AppwriteAccount();
-
-    async function fetchUser(){
-        try{
-            const appwriteUser = await appwriteAccount.getAppwriteUser();
-            setUser(appwriteUser);
-        }catch(error){
-            console.log(error.message)
-        }finally{
-            setIsCheckingUser(false);
-        }
-    }
-
-    useEffect(() => {
-        fetchUser();
-    }, [])
+    const currentUser = useAuthStore((state) => state.currentUser)
+    const isCheckingUser = useAuthStore((state) => state.isCheckingUser)
+    
     /**
      * 1. Empty Dependency Array: Run only once
      * 2. Act as componentDidMount()
@@ -36,17 +21,13 @@ function PrivateRoute(props) {
         )
     }
 
-    if(!user){
+    if(!currentUser){
         return (
             <Navigate to="/login" />
         )
     }
 
-
-    
-    const newChildren = Object.assign({}, children, {props: {children: children.props.children, user}});
-
-    return newChildren; // <AdminRoute />
+    return children;
 }
 
 export default PrivateRoute;

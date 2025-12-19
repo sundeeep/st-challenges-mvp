@@ -1,14 +1,12 @@
 import { Navigate } from "react-router";
+import useAuthStore from "../store/authStore";
 
 const AdminRoute = (props) => {
-    // console.log(props);
-    const {user, children} = props;
+    const {children} = props;
+    const currentUser = useAuthStore((state) => state.currentUser);
 
-    // console.log(user);
-
-    if(user?.labels?.includes("admin")){
-        // console.log(user.labels)
-        return children;
+    if(currentUser.labels.includes('admin')){
+        return children
     }
 
     return <Navigate to="/" />

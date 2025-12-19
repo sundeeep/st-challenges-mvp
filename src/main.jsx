@@ -14,7 +14,6 @@ import Settings from './pages/my-dashboard/Settings'
 import AdminRoute from './routes/AdminRoute'
 import UserProfile from './pages/UserProfile'
 
-
 const router = createBrowserRouter([
   {
     path: "/",

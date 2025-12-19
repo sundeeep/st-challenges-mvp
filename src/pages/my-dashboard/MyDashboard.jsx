@@ -3,10 +3,12 @@ import { Link, Outlet, useNavigate } from "react-router";
 import { useState } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import AppwriteAccount from "../../appwrite/Account.services.js";
+import useAuthStore from "@/src/store/authStore.js";
 
 const MyDashboard = () => {
 
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const setCurrentUser = useAuthStore((state) => state.setCurrentUser);
 
   const appwriteAccount = new AppwriteAccount();
   const navigate = useNavigate();
@@ -17,6 +19,7 @@ const MyDashboard = () => {
     console.log("result");
     if (!result?.message) {
       setIsLoggingOut(false)
+      setCurrentUser(null)
       navigate("/login")
     }
   }
