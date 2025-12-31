@@ -7,16 +7,45 @@ class AppwriteTablesDB {
         this.tablesDb = new TablesDB(appwriteClient)
     }
 
-    async createRow(tablesId, data) {
+    async createRow(tableId, data) {
         try {
             const result = await this.tablesDb.createRow({
                 databaseId: APPWRITE_DB_ID,
-                tableId: tablesId,
+                tableId: tableId,
                 rowId: ID.unique(),
                 data: data
             });
 
             return result
+        } catch (error) {
+            console.error(error)
+            throw new Error(error.message)
+        }
+    }
+
+    async listRows(tableId) {
+        try {
+            const result = await this.tablesDb.listRows({
+                databaseId: APPWRITE_DB_ID,
+                tableId: tableId
+            });
+
+            return result.rows;
+        } catch (error) {
+            console.error(error)
+            throw new Error(error.message)
+        }
+    }
+
+    async getRow(tableId, rowId){
+        try {
+            const result = await this.tablesDb.getRow({
+                databaseId: APPWRITE_DB_ID,
+                tableId: tableId,
+                rowId: rowId
+            });
+
+            return result;
         } catch (error) {
             console.error(error)
             throw new Error(error.message)

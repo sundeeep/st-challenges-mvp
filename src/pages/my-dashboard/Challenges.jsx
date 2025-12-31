@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
-import AppwriteTablesDB from '../../appwrite/TablesDB.service.js'
 import React, { useState } from 'react'
 import { APPWRITE_CHALLENGES_TABLE_ID } from '@/src/utils/appwrite/constants';
+import { createChallenge } from '../../utils/appwrite/challengesTableOps.js';
 
 const Challenges = () => {
   const [title, setTitle] = useState("");
@@ -10,18 +10,13 @@ const Challenges = () => {
   const [level, setLevel] = useState("INTERMEDIATE");
   const [duration, setDuration] = useState("21");
 
-  const appwriteTablesDb = new AppwriteTablesDB();
-
 
   async function handleChallengeFormSubmission(event) {
-
     event.preventDefault();
     const newChallenge = {
       title, description, domain, level, duration: Number(duration)
     }
-
-    const result = await appwriteTablesDb.createRow(APPWRITE_CHALLENGES_TABLE_ID, newChallenge)
-
+    const result = await createChallenge(newChallenge)
     console.log("Appwrite challenge record: ", result);
   }
 
