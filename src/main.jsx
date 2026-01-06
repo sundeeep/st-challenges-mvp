@@ -18,6 +18,7 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from './queryClient.js'
 import TodoApp from './pages/TodoApp'
 import { ToastContainer } from 'react-toastify'
+import OrdersDashboard from './pages/OrdersDashboard'
 
 const router = createBrowserRouter([
   {
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
   {
     path:"/todo-app",
     element: <TodoApp />
+  },
+  {
+    path: "/orders-dashboard",
+    element: <OrdersDashboard />
   }
 
 ])
